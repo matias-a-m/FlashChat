@@ -20,6 +20,7 @@
 #include <cmath>
 #include <limits>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "Firestore/core/src/model/database_id.h"
@@ -51,6 +52,26 @@ pb_bytes_array_s* kMaxValueFieldKey =
 const char* kRawMaxValueFieldValue = "__max__";
 pb_bytes_array_s* kMaxValueFieldValue =
     nanopb::MakeBytesArray(kRawMaxValueFieldValue);
+
+/** The special map field value entry of a maximum proto value. */
+google_firestore_v1_MapValue_FieldsEntry kMaxValueFieldEntry = {
+    .key = kMaxValueFieldKey,
+    .value = {
+        .which_value_type = google_firestore_v1_Value_string_value_tag,
+        .string_value = const_cast<pb_bytes_array_t*>(kMaxValueFieldValue)}};
+
+/** The special map value of a maximum proto value. */
+_google_firestore_v1_MapValue kMaxValueMapValue = {
+    .fields_count = 1, .fields = &kMaxValueFieldEntry};
+
+/**
+ * A maximum value that is larger than any other Firestore values. Underlying it
+ * is a map value with a special map field that SDK user cannot possibly
+ * construct.
+ */
+google_firestore_v1_Value kMaxValue = {
+    .which_value_type = google_firestore_v1_Value_map_value_tag,
+    .map_value = kMaxValueMapValue};
 
 }  // namespace
 
@@ -299,6 +320,42 @@ ComparisonResult Compare(const google_firestore_v1_Value& left,
   }
 }
 
+ComparisonResult LowerBoundCompare(const google_firestore_v1_Value& left,
+                                   bool left_inclusive,
+                                   const google_firestore_v1_Value& right,
+                                   bool right_inclusive) {
+  auto cmp = Compare(left, right);
+  if (cmp != util::ComparisonResult::Same) {
+    return cmp;
+  }
+
+  if (left_inclusive && !right_inclusive) {
+    return util::ComparisonResult::Ascending;
+  } else if (!left_inclusive && right_inclusive) {
+    return util::ComparisonResult::Descending;
+  }
+
+  return util::ComparisonResult::Same;
+}
+
+ComparisonResult UpperBoundCompare(const google_firestore_v1_Value& left,
+                                   bool left_inclusive,
+                                   const google_firestore_v1_Value& right,
+                                   bool right_inclusive) {
+  auto cmp = Compare(left, right);
+  if (cmp != util::ComparisonResult::Same) {
+    return cmp;
+  }
+
+  if (left_inclusive && !right_inclusive) {
+    return util::ComparisonResult::Descending;
+  } else if (!left_inclusive && right_inclusive) {
+    return util::ComparisonResult::Ascending;
+  }
+
+  return util::ComparisonResult::Same;
+}
+
 bool NumberEquals(const google_firestore_v1_Value& left,
                   const google_firestore_v1_Value& right) {
   if (left.which_value_type == google_firestore_v1_Value_integer_value_tag &&
@@ -398,6 +455,9 @@ bool Equals(const google_firestore_v1_Value& lhs,
       return ArrayEquals(lhs.array_value, rhs.array_value);
 
     case TypeOrder::kMap:
+      return ObjectEquals(lhs.map_value, rhs.map_value);
+
+    case TypeOrder::kMaxValue:
       return ObjectEquals(lhs.map_value, rhs.map_value);
 
     default:
@@ -644,16 +704,7 @@ bool IsMinValue(const google_firestore_v1_Value& value) {
 }
 
 google_firestore_v1_Value MaxValue() {
-  google_firestore_v1_Value max_value;
-  max_value.which_value_type = google_firestore_v1_Value_map_value_tag;
-  max_value.map_value.fields_count = 1;
-  max_value.map_value.fields =
-      nanopb::MakeArray<google_firestore_v1_MapValue_FieldsEntry>(1);
-  max_value.map_value.fields[0].key = kMaxValueFieldKey;
-  max_value.map_value.fields[0].value.which_value_type =
-      google_firestore_v1_Value_string_value_tag;
-  max_value.map_value.fields[0].value.string_value = kMaxValueFieldValue;
-  return max_value;
+  return kMaxValue;
 }
 
 bool IsMaxValue(const google_firestore_v1_Value& value) {

@@ -14,22 +14,26 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureView()
+       
+    }
+    
+    // MARK: - configureView
+    func configureView(){
         tableView.delegate = self
         tableView.dataSource = self
         title = Constants.appName
         navigationItem.hidesBackButton = true
-
         tableView.register(UINib(nibName: Constants.cellNibName, bundle: nil), forCellReuseIdentifier: Constants.cellIdentifier)
-        
     }
     
+    // MARK: - Actions
     @IBAction func sendPressed(_ sender: UIButton) {
     }
     
     
     @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
-       
+        
         do {
             try Auth.auth().signOut()
             navigationController?.popToRootViewController(animated: true)
@@ -37,27 +41,27 @@ class ChatViewController: UIViewController {
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-        
     }
-    
 }
 
-//MARK: - UITableViewDataSource
-extension ChatViewController: UITableViewDataSource{
+//MARK: - UITableViewDataSource, UITableViewDelegate
+typealias UITableDataDelegate = UITableViewDataSource & UITableViewDelegate
+
+extension ChatViewController: UITableDataDelegate{
+    // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! MessageCell
         cell.label.text = messages[indexPath.row].body
         return cell
     }
-}
-
-//MARK: - UITableDelegate
-extension ChatViewController: UITableViewDelegate{
+    // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
     }
 }
+
+
+

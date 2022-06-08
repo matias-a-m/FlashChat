@@ -508,7 +508,7 @@ THE SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>Firebase</string>
 			<key>Type</key>
@@ -730,7 +730,7 @@ THE SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseAuth</string>
 			<key>Type</key>
@@ -942,7 +942,7 @@ THE SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseCore</string>
 			<key>Type</key>
@@ -1154,7 +1154,7 @@ THE SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseCoreDiagnostics</string>
 			<key>Type</key>
@@ -1366,7 +1366,7 @@ THE SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseCoreInternal</string>
 			<key>Type</key>
@@ -1821,7 +1821,7 @@ FirestoreEncoder
 
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseFirestore</string>
 			<key>Type</key>
@@ -2033,7 +2033,7 @@ FirestoreEncoder
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>FirebaseInstallations</string>
 			<key>Type</key>
