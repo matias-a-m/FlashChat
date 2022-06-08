@@ -11,6 +11,6 @@ target 'Flash Chat iOS13' do
   pod 'Firebase'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-  pod 'FirebaseFirestore'
+  pod 'Firebase/Firestore'
 
 end
