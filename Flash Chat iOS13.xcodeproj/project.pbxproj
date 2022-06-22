@@ -99,7 +99,6 @@
 				0B628192235DF02000E35CAF /* Controllers */,
 				E7BCD3A5283D5E080018497C /* Constants.swift */,
 				0B62817F235DEE8400E35CAF /* Assets.xcassets */,
-				0B628181235DEE8400E35CAF /* LaunchScreen.storyboard */,
 				0B628184235DEE8400E35CAF /* Info.plist */,
 				E70DAA6C283C49DF00E0C035 /* GoogleService-Info.plist */,
 			);
@@ -120,6 +119,7 @@
 		0B628193235DF03400E35CAF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0B628181235DEE8400E35CAF /* LaunchScreen.storyboard */,
 				0B62817C235DEE8100E35CAF /* Main.storyboard */,
 				E7BCD3AD283FDE300018497C /* MessageCell.xib */,
 				E7BCD3AC283FDE300018497C /* MessageCell.swift */,

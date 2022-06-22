@@ -9,11 +9,7 @@ class ChatViewController: UIViewController {
     
     let db = Firestore.firestore()
     
-    var messages:[Message] = [
-        Message(sender: "1@2.com", body: "hey!"),
-        Message(sender: "1@3.com", body: "Hello!"),
-        Message(sender: "1@2.com", body: "What´s up?")
-    ]
+    var messages:[Message] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +41,9 @@ class ChatViewController: UIViewController {
                             
                             DispatchQueue.main.async{
                                 self.tableView.reloadData()
+                                
+                                let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+                                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
                             }
                          
                             
@@ -81,6 +80,12 @@ class ChatViewController: UIViewController {
                 }
                 else{
                     print("Successfully saved data.")
+                    
+                    // update the text area
+                    DispatchQueue.main.async {
+                        self.messageTextfield.text = ""
+                    }
+                    
                 }
             }
         }
